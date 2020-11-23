@@ -1,6 +1,6 @@
-# PLDI-Java-Scala-Type-Systems
+# A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
 
-[Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
+### 1. Motivation and Background
 
 A type is a system of judgement and inference rules. A judgement is a claim. For example, ```3``` is an integer is a judgement. Inference rules are used to derieve judgements from other judgements tht are valid.[1](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) For example, consider the following peice of code:
 
@@ -8,10 +8,19 @@ A type is a system of judgement and inference rules. A judgement is a claim. For
 var a = 6 + 5
 ```
 
-Here, we can infer that the type of a is an integer because we can infer that we will get an integer when we add two integers. Java and Scala both have type systems that uses similar judgements as premises to come up with conclusions. In this paper, we draw inspiration from the paper "Java and Scala’s Type Systems are Unsound" by Nada Amin and Ross Tate to shed light on this issue.
+Here, we can infer that the type of ```a``` is an integer because we can infer that we will get an integer when we add two integers. Java and Scala both have type systems that uses similar judgements as premises to come up with conclusions. Java and Scala are both statically typed languages. A language is said to be statically typed if its type is known at compile time instead of runtime. Python and JavaScript are examples of dynamically typed languages. 
+
+A type system is sound if it does what its specifications says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
+
+A type system is sound if it actually succeeds at providing that guarantee. Thus informally a type system is sound if it ensures what its designers intended it to ensure
 
 
-1. Motivation and Background [3 points] You should clearly articulate the answers to the following questions about the paper you’ve read:
+In this paper, we draw inspiration from the paper "Java and Scala’s Type Systems are Unsound" by Nada Amin and Ross Tate to shed light on this issue.
+
+
+
+
+Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer ```scala "a" + 42``` 
 
 
 What is the problem that the paper solves?
