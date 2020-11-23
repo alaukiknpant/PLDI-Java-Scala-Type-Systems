@@ -2,34 +2,61 @@
 
 ### 1. Motivation and Background
 
-A type is a system of judgement and inference rules. A judgement is a claim. For example, ```3``` is an integer is a judgement. Inference rules are used to derieve judgements from other judgements tht are valid.[1](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) For example, consider the following peice of code:
+A type is a system of judgement and inference rules. A judgement is a claim and Inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
 
-```scala
-var a = 6 + 5
+For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. Java and Scala are both statically typed languages with a type system. A language is said to be statically typed if its type is known at compile time instead of runtime. Python and JavaScript are examples of dynamically typed languages. A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
+
+Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer ```scala "a" + 42```, provide information about types of intermediate operators to the compiler and much more.
+
+Java introduced generics (parametric polymorphism) in 2005, that makes the life of a programmer easier in some sense. Generic methods are those method declarations that can be called on arguments of differnt types. For example, if you want to write a function extracts the head of a list, regardless of the types of the elements in the list, you would use a generic type. Note that the type parameter section in Java delimited by angle brackets `(<>)` to signify generics.
+
+Consider the following Java code that the author presents that seems seemingly bad[[2]](https://hackernoon.com/java-is-unsound-28c84cb2b3f):
+
+```java
+List<Integer> ints = Arrays.asList(1);
+List raw = ints;
+List<String> strs = raw;
+String one = strs.get(0);
+```
+Here, the variable ```one``` seems to allow a string although it is getting an integer. Althogh this behavious looks bad, it was intentional and the designers planned it such that the runtime checks the the variable ```one``` is actually a string and throws a ClassCastException if not. In this way, by introducing generics, the designers of Java planned the type system of Java to be safe, but Nada Amin and Ross Tate argue in their paper that "Java and Scala’s Type Systems are Unsound".
+
+Consider the following peice of code that does :
+
+```java
+class Unsound {
+    static class Constrain<A, B extends A> {}
+    static class Bind<A> {
+	// T <: Z
+	//     Z <: U
+	// 	Explicit constraint on wildcard Implicit constraint on wildcard
+	<B extends A>
+	    A upcast(Constrain<A,B> constrain, B b) {
+	    return b; }
+    }
+    static <T,U> U coerce(T t) {
+	Constrain<U,? super T> constrain = null; Bind<U> bind = new Bind<U>();
+	return bind.upcast(constrain, t);
+    }
+    public static void main(String[] args) {
+	String zero = Unsound.<Integer,String>coerce(0); }
+}
 ```
 
-Here, we can infer that the type of ```a``` is an integer because we can infer that we will get an integer when we add two integers. Java and Scala both have type systems that uses similar judgements as premises to come up with conclusions. Java and Scala are both statically typed languages. A language is said to be statically typed if its type is known at compile time instead of runtime. Python and JavaScript are examples of dynamically typed languages. 
 
-A type system is sound if it does what its specifications says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
-
-A type system is sound if it actually succeeds at providing that guarantee. Thus informally a type system is sound if it ensures what its designers intended it to ensure
-
-
-In this paper, we draw inspiration from the paper "Java and Scala’s Type Systems are Unsound" by Nada Amin and Ross Tate to shed light on this issue.
+```
+Exception in thread "main" java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String
+	at Unsound.main(Unsound.java:16)
+```
 
 
 
 
-Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer ```scala "a" + 42``` 
+
 
 
 What is the problem that the paper solves?
 
-Most type systems aim to provide some sort of guarantee about how a well-type program will behave
 
- Thus informally a type system is sound if it ensures what its designers intended it to ensure. This is much like programming: a program is correct if it does what it is supposed to do.
- 
- Java’s type system is intended to ensure that if a method asks for an Integer, then it will only ever be given Integers, never Strings. 
 
 
 - A function that can evaluate to or be applied to values of different types is known as a polymorphic function
