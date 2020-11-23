@@ -10,7 +10,7 @@ Type cehcking is important because it can statically rule out run time errors su
 
 Java introduced generics (parametric polymorphism) in 2005, that makes the life of a programmer easier in some sense. Generic methods are those method declarations that can be called on arguments of differnt types. For example, if you want to write a function extracts the head of a list, regardless of the types of the elements in the list, you would use a generic type. Note that the type parameter section in Java delimited by angle brackets `(<>)` to signify generics.
 
-Consider the following Java code that the author presents that seems seemingly bad[[2]](https://hackernoon.com/java-is-unsound-28c84cb2b3f):
+Consider the following piece of Java code that the author presents that seems seemingly bad[[2]](https://hackernoon.com/java-is-unsound-28c84cb2b3f):
 
 ```java
 List<Integer> ints = Arrays.asList(1);
@@ -18,9 +18,9 @@ List raw = ints;
 List<String> strs = raw;
 String one = strs.get(0);
 ```
-Here, the variable ```one``` seems to allow a string although it is getting an integer. Althogh this behavious looks bad, it was intentional and the designers planned it such that the runtime checks the the variable ```one``` is actually a string and throws a ClassCastException if not. In this way, by introducing generics, the designers of Java planned the type system of Java to be safe, but Nada Amin and Ross Tate argue in their paper that "Java and Scala’s Type Systems are Unsound".
+Here, the variable ```one``` seems to allow a string although it is getting an integer. Althogh this behavious looks bad, it was intentional and the designers planned it such that it does runtime checks to verify the variable ```one``` is actually a string and throws a ClassCastException if not. In this way, by introducing generics, the designers of Java planned the type system of Java to be safe. But Nada Amin and Ross Tate argue in their paper that "Java and Scala’s Type Systems are Unsound".
 
-Consider the following peice of code that does :
+Consider the following peice of code from the paper:
 
 ```java
 class Unsound {
@@ -41,6 +41,7 @@ class Unsound {
 	String zero = Unsound.<Integer,String>coerce(0); }
 }
 ```
+The Java type checker does not complain about this peice of code and this proram should compile without exception. However, when we run this program, we get the following error that compains that we have assigned an integer to a string variable. T
 
 
 ```
@@ -48,9 +49,11 @@ Exception in thread "main" java.lang.ClassCastException: java.lang.Integer canno
 	at Unsound.main(Unsound.java:16)
 ```
 
+### What happened in the Unsound Class?
 
+The runtime checks mentioned in the first example above is only done on generic types and the Unsound class has no generic types.
 
-
+Recall that there are no generic types in this peice of code
 
 
 
