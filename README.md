@@ -1,5 +1,16 @@
 # PLDI-Java-Scala-Type-Systems
 
+[Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
+
+A type is a system of judgement and inference rules. A judgement is a claim. For example, ```3``` is an integer is a judgement. Inference rules are used to derieve judgements from other judgements tht are valid.[1](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) For example, consider the following peice of code:
+
+```scala
+var a = 6 + 5
+```
+
+Here, we can infer that the type of a is an integer because we can infer that we will get an integer when we add two integers. Java and Scala both have type systems that uses similar judgements as premises to come up with conclusions. In this paper, we draw inspiration from the paper "Java and Scala’s Type Systems are Unsound" by Nada Amin and Ross Tate to shed light on this issue.
+
+
 1. Motivation and Background [3 points] You should clearly articulate the answers to the following questions about the paper you’ve read:
 
 
