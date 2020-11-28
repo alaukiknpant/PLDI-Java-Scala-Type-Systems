@@ -1,12 +1,16 @@
 # A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
 
-### 1. Motivation and Background
-
+#### Type Systems
 A type is a system of judgement and inference rules. A judgement is a claim and Inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
 
-For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. Java and Scala are both statically typed languages with a type system. A language is said to be statically typed if its type is known at compile time instead of runtime. Python and JavaScript are examples of dynamically typed languages. A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
+For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. Java and Scala are both statically typed languages with a type system. A language is said to be statically typed if its type is known at compile time instead of runtime. A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
 
-Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer ```scala "a" + 42```, provide information about types of intermediate operators to the compiler and much more.
+Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer in the expression ```"a" + 42```.
+Type checking also provides information about types of intermediate operators to the compiler, provides extra information that can be used in compiler optimization and much more.
+
+The fact that static type checkers are conservative and can rule out possible run time errors in programming languages can also be a disadvantage. For example, your type checker may now allow a program that would eventually execute without an error. As a result, dynamically typed languages can be more expressive. Python and JavaScript are examples of dynamically typed languages. 
+
+#### Java Generics
 
 Java introduced generics (parametric polymorphism) in 2005, that makes the life of a programmer easier in some sense. Generic methods are those method declarations that can be called on arguments of differnt types. For example, if you want to write a function extracts the head of a list, regardless of the types of the elements in the list, you would use a generic type. Note that the type parameter section in Java delimited by angle brackets `(<>)` to signify generics.
 
