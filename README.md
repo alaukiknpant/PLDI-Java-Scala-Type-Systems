@@ -26,6 +26,29 @@ The trait Graph here does not define the implementation of the type ```vertex```
 Also, interistingly, Scala is allowing path dependent types to be dynamically determined. Unlike static types like ```String``` or parameterized types like ```T``` , ```a.Vertex``` is a path-dependent type. Path-dependent types are important when encoding information into types thacan be known at runtime.[[3
 ]](https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-13-path-dependent-types/)
 
+#### Scala's Unsoundness
+
+Using Scala's path dependent type, let us study the method ```coerce``` that can turn one type to another without (down)casting.
+
+```scala
+object unsound {
+  trait LowerBound[T] {
+    type M >: T; }
+  trait UpperBound[U] { type M <: U;
+  }
+  def coerce[T,U](t : T) : U = {
+    def upcast(lb : LowerBound[T], t : T) : lb.M = t
+    val bounded : LowerBound[T] with UpperBound[U] = null
+    return upcast(bounded, t)
+  }
+  def main(args : Array[String]) : Unit = {
+    val zero : String = coerce[Integer,String](0) }
+}
+
+```
+
+If we execute this program in the Java Virtual Machine, we get the following: ```ClassCastException: java.lang.Integer cannot be cast to java.lang.String```. 
+To understand the reason behind this, consider the line with ```LowerBound[T] with UpperBound[U]``` in the code above.
 
 
 #### Java Generics
