@@ -10,11 +10,27 @@ Type checking also provides information about types of intermediate operators to
 
 The fact that static type checkers are conservative and can rule out possible run time errors in programming languages can also be a disadvantage. For example, your type checker may now allow a program that would eventually execute without an error. As a result, dynamically typed languages can be more expressive. Python and JavaScript are examples of dynamically typed languages. 
 
+#### Path Dependent Types in Scala
+
+Scala has Path Dependent Types. To understand what this is, consider the following trait:
+
+```scala
+trait Graph {
+	type Vertex;
+	def getNeighbors(v : Vertex) : List[Vertex]
+}
+```
+
+The trait Graph here does not define the implementation of the type ```vertex```. This vertex can be a set of tuples in a 2D graph or a set of triples in a 3D graph or even a class that defines the storage of a list of neighbours. In this example, the type member of the trait ```Graph``` indicates the type of its vertices. If we are given a variable ```a``` of type Graph, it has an associated path dependent type ```a.Vertex```. Note that ```a.Vertex``` cannot be assigned to ```b.Vertex``` if ```b``` is another object og type Graph. Additionally, such type parameters cannot also be constrained to indicate that they can be a subtype/supertype of some type. 
+
+Also, interistingly, Scala is allowing path dependent types to be dynamically determined. Unlike static types like ```String``` or parameterized types like ```T``` , ```a.Vertex``` is a path-dependent type. Path-dependent types are important when encoding information into types thacan be known at runtime.[[3
+]](https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-13-path-dependent-types/)
+
+
+
 #### Java Generics
 
 Java introduced generics (parametric polymorphism) in 2005, that makes the life of a programmer easier in some sense. Generic methods are those method declarations that can be called on arguments of differnt types. For example, if you want to write a function extracts the head of a list, regardless of the types of the elements in the list, you would use a generic type. Note that the type parameter section in Java delimited by angle brackets `(<>)` to signify generics.
-
-Consider the following piece of Java code that the author presents that seems seemingly bad[[2]](https://hackernoon.com/java-is-unsound-28c84cb2b3f):
 
 ```java
 List<Integer> ints = Arrays.asList(1);
