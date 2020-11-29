@@ -103,7 +103,7 @@ Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done i
 
 C. **[I]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
 
-### Null Pointer Refernces Satisfies Inference C
+### Null Pointer Refernces Satisfies Inference Number C
 From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is impossible to find a variable that satisfies this. However, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the compilation of this code. Unfortunately, it leads to the creation of a **Non-Sense type**.
 
 ### Nonsense types and their problems
@@ -164,7 +164,7 @@ Note that in the `upcast()` method above, we assign `a.vertex`, where `a` is of 
 `Exception in thread "main" java.lang.ClassCastException: java.lang.Integer cannot be cast to scala.collection.immutable.List`.
 
 
-## Conclusion
+## 4. Conclusion
 
 In this report, we have shown, using, atleast two examples that Scala's type system is unsound when using null pointer references with path dependent types. Java also has a similar problem when using generics with null pointer references. This bug took 12 years after the introduction of Java generics to uncover. It shows us that when different features of a programming language interact, i.e. null pointer references and path dependent types in this case, then we can have problematic scenarios while type-checking. Hence, programming language designers should not only think about the new features they design in isolation, but also the result of different features interacting.
 
