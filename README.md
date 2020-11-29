@@ -36,11 +36,11 @@ For example,  ```3``` is an integer is a judgement. In the expression ```var a =
 A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set. Type checking refers to the idea of verifying that the constraints associated with types are enforced either *statically* at compile time or *dynamically* run time. For compiled language, Static Type checking is important because it can statically rule out run time errors such as adding a string to an integer. For example, the expression ```"a" + 42```  is deemed incorrect at compile time because you cannot add a string to an integer. Type checking is also important because it provides information about types of intermediate operators to the compiler, provides extra information that can be used in compiler optimization and much more. As a programming language designer, you want to make sure that your type system obeys your specifications, i.e. your type system is sound.
 
 #### Java and Scala's type systems are Unsound
-To prove that Java and Scala's type system are unsound, all we have to show is an example of a violation of a specification of the language. This report examines a particualr example of a violation of the type system in Scala, and hence, shows that Scala's type system is unsound. Java has a similar problem and you can find more about it [[here]](https://ilyasergey.net/YSC3208/_static/papers/null.pdf).
+To prove that Java and Scala's type system are unsound, all we have to show is an example of a violation of a specification of the language. This report examines a particualr example of a violation of the type system in Scala, and hence, shows that Scala's type system is unsound. Java has a similar problem and you can find more about it [here](https://ilyasergey.net/YSC3208/_static/papers/null.pdf).
 
 #### Path Dependent Types in Scala
 
-Scala has Path Dependent Types. To understand what this is, consider the following trait:
+To understand the unsoundness of Scala's type system, let us revisit Scala's has Path Dependent Types. To understand what this is, consider the following trait mentioned in the paper:
 
 ```scala
 trait Graph {
@@ -49,14 +49,12 @@ trait Graph {
 }
 ```
 
-The trait Graph here does not define the implementation of the type ```vertex```. This vertex can be a set of tuples in a 2D graph or a set of triples in a 3D graph or even a class that defines the storage of a list of neighbours. In this example, the type member of the trait ```Graph``` indicates the type of its vertices. If we are given a variable ```a``` of type Graph, it has an associated path dependent type ```a.Vertex```. Note that ```a.Vertex``` cannot be assigned to ```b.Vertex``` if ```b``` is another object og type Graph. Additionally, such type parameters cannot also be constrained to indicate that they can be a subtype/supertype of some type. 
-
-Also, interistingly, Scala is allowing path dependent types to be dynamically determined. Unlike static types like ```String``` or parameterized types like ```T``` , ```a.Vertex``` is a path-dependent type. Path-dependent types are important when encoding information into types thacan be known at runtime.[[3
+Note that the trait `Graph` here does not define the implementation of the type ```vertex```. This vertex can be a set of tuples in a 2D graph or a set of triples in a 3D graph or even a class that defines the storage of a list of neighbours. All we know is that the trait ```Graph``` indicates the type of its vertices and the type of its vertices can differ in different instances of a class that implement this trait. Hence, if the variable ```a``` is of type Graph, then we say that it has an associated **path dependent type** ```a.Vertex```. If the variable `b` is also of type graph, we cannot be sure that ```a.Vertex``` is of the same type as ```b.Vertex```. For this reason, Scala allows path dependent types to be dynamically determined. Hence, ```a.Vertex```, a path-dependent type, is different from static types like ```String``` or parameterized types like ```T```. Path-dependent such as ```a.Vertex``` are important when encoding information into types tha can only be known at runtime.[[3
 ]](https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-13-path-dependent-types/)
 
 #### Scala's Unsoundness
 
-Using Scala's path dependent type, let us study the method ```coerce``` that can turn one type to another without (down)casting.
+Using Scala's path dependent type, let us study the method ```coerce``` that can turn one type to another without "(down)casting".
 
 ```scala
 object unsound {
