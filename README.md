@@ -106,7 +106,7 @@ C. **[I]** Since the variable `bounded` is a super-type of `T` and a sub-type of
 ### Null Pointer Refernces Satisfies Inference C
 From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is impossible to find a variable that satisfies this. However, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the compilation of this code. Unfortunately, it leads to the creation of a **Non-Sense type**.
 
-### Nonsense types and thier problems
+### Nonsense types and their problems
 
 When we run this program,, we can pass an integer and a string because of the following sequence of logic that is problematic:
 
@@ -121,7 +121,7 @@ The creation of V is referred to as a “non- sense” type and it leads to the 
 
 ### Potential Solution
 
-The problem in the afformentioned example was caused by using null pointers in path dependent types. Hence, the authors propose that the solution would likely be to intorduce additional compile time analysis of path-dependent variables so that we have to do less checks during run-time. Other solutions discussed included either abandoning null pointers all together or abandoning them when using path-dependent variables. However, the authors recognize that this can be problematic in industry and argue that more research has to go into amending type-argument inference rules. Unfortunately, the Scala team was able to identify other sources of unsoundness in Scala's type system that are related to this example but using other advanced features than null pointers.[[4]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
+The problem in the afformentioned example was caused by using null pointers in path dependent types. Hence, the authors propose that the solution would likely be to intorduce additional compile time analysis of path-dependent variables so that we have to do less checks during run-time. Other solutions discussed included either abandoning null pointers all together or abandoning them when using path-dependent variables. However, the authors recognize that this can be problematic in industry and argue that more research has to go into amending type-argument inference rules. Unfortunately, there seems to be no quick fix as the Scala team was able to identify other sources of unsoundness in Scala's type system that are related to this example but using other advanced features than null pointers.[[4]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf)  
 
 
 ## 3. Evaluation of an Additional Example 
