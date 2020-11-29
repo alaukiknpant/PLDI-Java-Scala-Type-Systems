@@ -76,7 +76,7 @@ object unsound {
 We argue that Scala's type system wrongly predicts the possible results of any computation. In particular, if we execute this program in the Java Virtual Machine, we get the following error: ```ClassCastException: java.lang.Integer cannot be cast to java.lang.String```. Instead of the type-checker catching the problem of casting an integer to a string at **compile time**, this peice of code reveals that Scala is relying on the JVM to catch this error at **run-time**.
 
  
-To understand the reason behind this, we will make severeal judgements (represented as [J]) and premises (represented as [P]).
+To understand the reason behind this, we will make severeal judgements (represented as [J]) and inferences (represented as [I]).
 
 	
 First, consider the method `upcast(lb, t)`
@@ -95,11 +95,11 @@ B. **[J]** The variable `bounded` is
 
    ii. a subtype of U as it satisfies UpperBound[U].
 
-Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done in the line ```return upcast(bounded, t)```. These judgements lead us to the following premise.
+Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done in the line ```return upcast(bounded, t)```. These judgements lead us to the following inference.
 
-C. **[P]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
+C. **[I]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
 
-### Null Pointer Refernces Satisfies the Premise C
+### Null Pointer Refernces Satisfies the Inference C
 From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is impossible to find a variable that satisfies this. However, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the compilation of this code. Unfortunately, it leads to the creation of a **Non-Sense type**.
 
 ### Nonsense types and thier problems
