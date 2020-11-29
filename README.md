@@ -1,4 +1,4 @@
-## Null Pointer References: The Billion Dollar Mistake even at the type level
+# Null Pointer References: The Billion Dollar Mistake, this time at the type level
 ### A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
 
 #### Type Systems
