@@ -28,14 +28,15 @@ Here, we are trying to compare tha variable ```ptr```, that is initialized as `n
 To start with, let us understand type systems and thier importance.
 
 #### Type Systems
-A type is a system of judgement and inference rules. A judgement is a claim and Inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
+A type system is a system of judgement and inference rules. A judgement is a claim and inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
 
-For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. Java and Scala are both statically typed languages with a type system. A language is said to be statically typed if its type is known at compile time instead of runtime. A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set.
+For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. A programming language with judgements and inference rules are called typed languages. Java and Scala are examples of statically typed languages. A language is said to be statically typed if its type is known at compile time instead of runtime. 
 
-Type cehcking is important because it can statically rule out run time errors such as adding a string to a integer in the expression ```"a" + 42```.
-Type checking also provides information about types of intermediate operators to the compiler, provides extra information that can be used in compiler optimization and much more.
+#### Sound Type Systems
+A type system is sound if it provides the guarantee that it will do what it says. For example, if a function in Scala is supposed to return a List, it will return a list and not a set. Type checking refers to the idea of verifying that the constraints associated with types are enforced either *statically* at compile time or *dynamically* run time. For compiled language, Static Type checking is important because it can statically rule out run time errors such as adding a string to an integer. For example, the expression ```"a" + 42```  is deemed incorrect at compile time because you cannot add a string to an integer. Type checking is also important because it provides information about types of intermediate operators to the compiler, provides extra information that can be used in compiler optimization and much more. As a programming language designer, you want to make sure that your type system obeys your specifications, i.e. your type system is sound.
 
-The fact that static type checkers are conservative and can rule out possible run time errors in programming languages can also be a disadvantage. For example, your type checker may now allow a program that would eventually execute without an error. As a result, dynamically typed languages can be more expressive. Python and JavaScript are examples of dynamically typed languages. 
+#### Java and Scala's type systems are Unsound
+To prove that Java and Scala's type system are unsound, all we have to show is an example of a violation of a specification of the language. This report examines a particualr example of a violation of the type system in Scala, and hence, shows that Scala's type system is unsound. Java has a similar problem and you can find more about it [[here]](https://ilyasergey.net/YSC3208/_static/papers/null.pdf).
 
 #### Path Dependent Types in Scala
 
