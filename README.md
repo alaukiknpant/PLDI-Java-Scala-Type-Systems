@@ -131,19 +131,40 @@ We have created an example of code that gives us a `ClassCastException` when you
 ```scala
 object unsound {
   trait Graph[T] {
-    type vertex >: List[T]
+    type vertex >: T
   }
-  val g: Graph[Int] {type vertex <: Array[Int]} = null
-  def upcast(a: Graph[Int], x: List[Int]): a.vertex = x
-  def coerce(arg: List[Int]): Array[Int] = upcast(g, arg)
+  val g: Graph[Int] {type vertex <: List[Int]} = null
+  def upcast(a: Graph[Int], x: Int): a.vertex = x
+  def coerce(arg: Int): List[Int] = upcast(g, arg)
 
   def main(args: Array[String]): Unit = {
     val argument: List[Int] = List(1, 2, 3, 4, 5)
-    val array: Array[Int] = coerce(argument)
+    val array: List[Int] = coerce(5)
   }
 }
 ```
 
 Lets us examine what is going on:
 
-Here, we have created a trait ```Graph``` with a Path-Dependent-Type called `vertex`, where `vertex` is a super-type of a List with elements of a generic type `T`. 
+Here, we have created a trait ```Graph``` with a Path-Dependent-Type called `vertex`, where `vertex` is a super-type of a a generic type `T`. Then we create a variable `g` of type graph whose `vertex` is a sub-type of a List of Integers.
+
+If `x` is the vertex of the graph, then `x` has to follow the following parameters:
+
+1. **[J]**`x` is a super-type of Integers.
+2. **[J]**`x` is a sub-type of an List of Integers.
+
+From these two judgements, we can infer the following:
+
+3. **[I]** `Int` <: `x` <: `List[Int]` => `Int` <: `List[Int]`
+
+Obviously, `x`, here, is a non-sense type and as it is impossible to find a type `x` in Scala's specification such that `Int` <: `x` <: `List[Int]`. But assigning it as null helps us trick the type-checker.
+
+Note that in the `upcast()` method above, we assign `a.vertex`, where `a` is of type graph to be an Integer. However, when we call `upcast(g, arg)` from the `coerce()` method on the graph `g` that expects its vertices to be sub-type a List of Integers, then we are inferring that `Int` <: `List[Int]`. In other words, we are trying to cast Integers to an immutable List. Hence, in runtime, JVM finds this to be problematic and returns the following message:
+
+`Exception in thread "main" java.lang.ClassCastException: java.lang.Integer cannot be cast to scala.collection.immutable.List`.
+
+
+## Conclusion
+
+In this report, we have shown, using, atleast two examples that Scala's type system is unsound when using null pointer references with path dependent types. Java also has a similar problem when using generics with null pointer references. This bug took 12 years after the introduction of Java generics to uncover. It shows us that when different features of a programming language interact, i.e. null pointer references and path dependent types in this case, then we can have problematic scenarios while type-checking. Hence, programming language designers should not only think about the new features they design in isolation, but also the result of different features interacting.
+
