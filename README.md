@@ -52,7 +52,7 @@ trait Rectangle {
 Note that the trait `Rectangle` here does not define the implementation of the type ```vertex```. This vertex can be a set of tuples in a 2D graph or a set of triples in a 3D graph or even a class that defines the storage of a list of neighbours. All we know is that the trait ```Rectangle``` indicates the type of its vertices and the type of its vertices can differ in different instances of a class that implement this trait. Hence, if the variable ```a``` is of type Rectangle, then we say that it has an associated **path dependent type** ```a.Vertex```. If the variable `b` is also of type Rectangle, we cannot be sure that ```a.Vertex``` is of the same type as ```b.Vertex```. For this reason, Scala allows path dependent types to be dynamically determined. Hence, ```a.Vertex```, a path-dependent type, is different from static types like ```String``` or parameterized types like ```T```. Path-dependent such as ```a.Vertex``` are important when encoding information into types tha can only be known at runtime.[[3
 ]](https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-13-path-dependent-types/)
 
-### Example of Scala's Unsoundness
+### Careful examination of the Code from the Paper
 
 Using Scala's path dependent type, let us study an example of the unsoundness of Scala's type system.
 
@@ -73,7 +73,7 @@ object unsound {
 
 ```
 
-We argue that Scala's type system wrongly predicts the possible results of any computation. In particular, if we execute this program in the Java Virtual Machine, we get the following error: ```ClassCastException: java.lang.Integer cannot be cast to java.lang.String```. Instead of the type-checker catching the problem of casting an integer to a string in **compile time**, this peice of code reveals that Scala, for now, is relying on the JVM to catch this error at **run-time**.
+We argue that Scala's type system wrongly predicts the possible results of any computation. In particular, if we execute this program in the Java Virtual Machine, we get the following error: ```ClassCastException: java.lang.Integer cannot be cast to java.lang.String```. Instead of the type-checker catching the problem of casting an integer to a string at **compile time**, this peice of code reveals that Scala is relying on the JVM to catch this error at **run-time**.
 
  
 To understand the reason behind this, we will make severeal judgements (represented as [J]) and premises (represented as [P]).
@@ -91,7 +91,7 @@ Notice that upcast upcasts `t` to the `lb`'s type member by using the supertype 
 
 B. **[J]** The variable `bounded` is 
 
-   i.  **a supertype of `T`** as it satisfies LowerBound[T]. - bounded satisfies the requirements of `lb` in judgement A.i
+   i.  **a supertype of `T`** as it satisfies LowerBound[T]. - bounded satisfies the requirements of `lb` in judgement number **A.i**.
 
    ii. a subtype of U as it satisfies UpperBound[U].
 
@@ -100,9 +100,19 @@ Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done i
 C. **[P]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
 
 ### Null Pointer Refernces Satisfies the Premise C
-From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is very hard to find a variable that satisfies this. Unfortunately, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the idea of the creation of a **Non-Sense type**.
-
+From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is impossible to find a variable that satisfies this. However, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the compilation of this code. Unfortunately, it leads to the creation of a **Non-Sense type**.
 
 ### Nonsense types and thier problems
+
+When we run this program,, we can pass an integer and a string because of the following sequence of logic that is problematic:
+
+1. Consider ⊥ as the a subtype of everything
+3. Consider ⊤ is a supertype of everything. 
+4. There can exist a variable v that is ⊤ ≤ V ≤ ⊥
+5. We know that Integer ≤ ⊤
+6. We also know that ⊥ ≤ String 
+7. Hence, Integer ≤ ⊤ ≤ V ≤ ⊥ ≤ String (This is problematic.)
+
+The creation of V is referred to as a “non- sense” type and it leads to the ```CastCastException``` mentioned above.
 
 
