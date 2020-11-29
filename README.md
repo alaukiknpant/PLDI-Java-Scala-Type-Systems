@@ -121,8 +121,8 @@ The creation of V is referred to as a “non- sense” type and it leads to the 
 
 ### Potential Solution
 
-The problem in the afformentioned example was caused by using null pointers in path dependent types. Hence, the authors propose that the solution would likely be to intorduce additional compile time analysis of path-dependent variables so that we have to do less checks during run-time. Other solutions discussed included either abandoning null pointers all together or abandoning them when using path-dependent variables. However, the authors recognize that this can be problematic in industry and argue that more research has to go into amending type-argument inference rules.
+The problem in the afformentioned example was caused by using null pointers in path dependent types. Hence, the authors propose that the solution would likely be to intorduce additional compile time analysis of path-dependent variables so that we have to do less checks during run-time. Other solutions discussed included either abandoning null pointers all together or abandoning them when using path-dependent variables. However, the authors recognize that this can be problematic in industry and argue that more research has to go into amending type-argument inference rules. Unfortunately, the Scala team was able to identify other sources of unsoundness in Scala's type system that are related to this example but using other advanced features than null pointers.[[4]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
 
 
-## Evaluation of an additional Example 
+## 3. Evaluation of an Additional Example 
 
