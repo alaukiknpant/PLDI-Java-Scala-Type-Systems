@@ -231,5 +231,12 @@ we assign `a.vertex`, where `a` is of type graph, to be an Integer.
 ## 4. Conclusion
 
 In this report, we have shown, using atleast two examples, that Scala's type system 
-is unsound when using null pointer references with path dependent types. Java also has a similar problem when using generics with null pointer references. This bug took 12 years after the introduction of Java generics to uncover. It shows us that when different features of a programming language interact, i.e. null pointer references and path dependent types in this case, then we can have problematic scenarios while type-checking. Hence, programming language designers should not only think about the new features they design in isolation, but also the result of different features interacting.
+is unsound when using null pointer references with path dependent types. 
+Java also has a similar problem when using generics with null pointer references.
+ This bug took 12 years after the introduction of Java generics to uncover. 
+ It shows us that when different features of a programming language interact, 
+ i.e. null pointer references and path dependent types in this case,
+  then we can have problematic scenarios while type-checking. 
+  Hence, programming language designers should not only think about the correctness of new features 
+  they design in isolation, but also the result of different features interacting.
 
