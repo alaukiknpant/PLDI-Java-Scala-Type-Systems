@@ -93,7 +93,7 @@ B. **[J]** The variable `bounded` is
 	
 Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done in the line ```return upcast(bounded, t)```. These judgements lead us to the following premise.
 
-C. **[P]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, `**T` <: `bounded` <: `U` => `T` <: `U`**.
+C. **[P]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
 
 #### Java Generics
 
