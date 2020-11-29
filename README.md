@@ -139,7 +139,7 @@ object unsound {
 
   def main(args: Array[String]): Unit = {
     val argument: List[Int] = List(1, 2, 3, 4, 5)
-    val array: List[Int] = coerce(5)
+    val ans: List[Int] = coerce(5)
   }
 }
 ```
