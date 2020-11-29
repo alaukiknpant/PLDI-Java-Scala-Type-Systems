@@ -56,7 +56,7 @@ Note that the trait `Rectangle` here does not define the implementation of the t
 
 ## 2. Careful examination of the first Scala Program broken
 
-The way in which this paper found out about the unsoundness of Scala's type system was by breaking its type system. Hence, we carefully examine the first program broke Scala's type system.
+The way in which this paper found out about the unsoundness of Scala's type system was by breaking its type system. Hence, we carefully examine the first program that broke Scala's type system.
 
 Using Scala's path dependent type, let us study an example of the unsoundness of Scala's type system.
 
