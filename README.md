@@ -30,7 +30,7 @@ Here, we are trying to compare tha variable ```ptr```, that is initialized as `n
 To start with, let us understand type systems and thier importance.
 
 ### Type Systems
-A type system is a system of judgement and inference rules. A judgement is a claim and inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
+A type system is a system of judgement and inference rules. A judgement is a claim and inference rules are used to derieve judgements from other judgements that are valid.[[2]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
 
 For example,  ```3``` is an integer is a judgement. In the expression ```var a = 6 + 5```, the type of ```a``` is an integer is an inference because we can infer that we will get an integer when we add two integers. A programming language with judgements and inference rules are called typed languages. Java and Scala are examples of statically typed languages. A language is said to be statically typed if its type is known at compile time instead of runtime. 
 
