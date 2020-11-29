@@ -1,6 +1,8 @@
 # Null Pointer References: The Billion Dollar Mistake, this time at the type level
 ##### Alaukik N Pant
 
+## 1. Backgorund and Motivation
+
 Tony Hoare called his invention of Null references his billion dollar mistake.[[1]](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/) Before we understand why, let us define the null type.
 
 **Null type:** Null is an object that has any reference type, i.e. ```Null``` is assigned to a value that is a member of every type. Null is generic and exhibits the behaviour of a variable that has no value.
@@ -52,7 +54,9 @@ trait Rectangle {
 Note that the trait `Rectangle` here does not define the implementation of the type ```vertex```. This vertex can be a set of tuples in a 2D graph or a set of triples in a 3D graph or even a class that defines the storage of a list of neighbours. All we know is that the trait ```Rectangle``` indicates the type of its vertices and the type of its vertices can differ in different instances of a class that implement this trait. Hence, if the variable ```a``` is of type Rectangle, then we say that it has an associated **path dependent type** ```a.Vertex```. If the variable `b` is also of type Rectangle, we cannot be sure that ```a.Vertex``` is of the same type as ```b.Vertex```. For this reason, Scala allows path dependent types to be dynamically determined. Hence, ```a.Vertex```, a path-dependent type, is different from static types like ```String``` or parameterized types like ```T```. Path-dependent such as ```a.Vertex``` are important when encoding information into types tha can only be known at runtime.[[3
 ]](https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-13-path-dependent-types/)
 
-### Careful examination of the Code from the Paper
+## 2. Careful examination of the first Scala Program broken
+
+The way in which this paper found out about the unsoundness of Scala's type system was by breaking it type system. Hence, we carefully examine the first Scala program  broken.
 
 Using Scala's path dependent type, let us study an example of the unsoundness of Scala's type system.
 
@@ -99,7 +103,7 @@ Hence, we can pass the variables ```t``` and ```bounded``` unto upcast as done i
 
 C. **[I]** Since the variable `bounded` is a super-type of `T` and a sub-type of `U`, `T` is a subtype of `U`. In other words, **`T` <: `bounded` <: `U` => `T` <: `U`**.
 
-### Null Pointer Refernces Satisfies the Inference C
+### Null Pointer Refernces Satisfies Inference C
 From the inference rule, we learn that not only do we need bounded to be a a super-type of `T` and a sub-type of `U`, but also for `U` to be a super-type of `T`. Unfortunately, it is impossible to find a variable that satisfies this. However, Scala has implicit nulls that can be assigned to any reference type and that is exactly what is done in the code above, which leads us to the compilation of this code. Unfortunately, it leads to the creation of a **Non-Sense type**.
 
 ### Nonsense types and thier problems
@@ -115,4 +119,10 @@ When we run this program,, we can pass an integer and a string because of the fo
 
 The creation of V is referred to as a “non- sense” type and it leads to the ```CastCastException``` mentioned above.
 
+### Potential Solution
+
+The problem in the afformentioned example was caused by using null pointers in path dependent types. Hence, the authors propose that the solution would likely be to intorduce additional compile time analysis of path-dependent variables so that we have to do less checks during run-time. Other solutions discussed included either abandoning null pointers all together or abandoning them when using path-dependent variables. However, the authors recognize that this can be problematic in industry and argue that more research has to go into amending type-argument inference rules.
+
+
+## Evaluation of an additional Example 
 
