@@ -1,5 +1,5 @@
 # Null Pointer References: The Billion Dollar Mistake, this time at the type level
-#### A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
+## Alaukik N Pant
 
 Tony Hoare called his invention of Null references his billion dollar mistake.[[1]](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/) Before we understand why, let us define the null type.
 
