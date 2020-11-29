@@ -126,3 +126,24 @@ The problem in the afformentioned example was caused by using null pointers in p
 
 ## 3. Evaluation of an Additional Example 
 
+We have created an example of code that gives us a `ClassCastException` when you execute it on the JVM. This program is an additional example of why Scala's type system is unsound:
+
+```scala
+object unsound {
+  trait Graph[T] {
+    type vertex >: List[T]
+  }
+  val g: Graph[Int] {type vertex <: Array[Int]} = null
+  def upcast(a: Graph[Int], x: List[Int]): a.vertex = x
+  def coerce(arg: List[Int]): Array[Int] = upcast(g, arg)
+
+  def main(args: Array[String]): Unit = {
+    val argument: List[Int] = List(1, 2, 3, 4, 5)
+    val array: Array[Int] = coerce(argument)
+  }
+}
+```
+
+Lets us examine what is going on:
+
+Here, we have created a trait ```Graph``` with a Path-Dependent-Type called `vertex`, where `vertex` is a super-type of a List with elements of a generic type `T`. 
