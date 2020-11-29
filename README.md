@@ -1,19 +1,16 @@
 # Null Pointer References: The Billion Dollar Mistake, this time at the type level
-### A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
+#### A Reflection on Why [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf)
 
 Tony Hoare called his invention of Null references his billion dollar mistake.[[1]](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/) Before we understand why, let us define the null type.
 
 **Null type:** Null is an object that has any reference type, i.e. ```Null``` is assigned to a value that is a member of every type. Null is generic and exhibits a behaviour of a variable that has no value.
 
-Note that null is different from the `undefined` type, which is a value that has been declared but not yet assigned a value. While the undefined type has been around for a while, the null type is an invention of Tony Hoare. Object oriented programming languages have objects that have an address. Object is another name for a reference. A reference is a type of pointer which needs to be initialized when declared. Each reference must be initialized with a calue that aligns with the type which is declared for the reference of that variable. For example, in the expression ```val a: String = b```, b must be an string and your compiler type checks if b is actually an string. Null pointers werer invented by Hoare to by-pass the requirement to check types. Consider the following expression that the `null` type enabled in Scala:
+Note that null is different from the `undefined` type, which is a value that has been declared but not yet assigned a value. While the undefined type has been around for a while, the null type is an invention of Tony Hoare. Let us first understnad the term ```reference``` in null pointer references. Object is another name for a reference. Object oriented programming languages have objects that have an address.  A reference is a type of pointer which needs to be initialized when declared. Each reference must be initialized with a value that aligns with the type which is declared for the reference of that variable. For example, in the expression ```val a: String = b```, b must be an string and your compiler type checks is such is the case. Null pointers werer invented by Hoare to by-pass the requirement for the afformentioned type-checking. Consider the following expression that the `null` type enabled in Scala:
 
 ```scala
 val a :String = null
 ```
-
-Hoare's invention allowed your code to run quickly, but compromised safety. In particualr, your programs can crash at run-time throwing the famous `NullPointerException` when it tries to use a null instead of an object. The null type also enabled memory leaks, security issues and viruses that could have led to loses ranging billions of dollars.
-
-Consider the following example:
+Although ```null``` isn't a `String`, we were able to initialize `a` as `null`. Here, we did not even have to type-check. Hoare's invention allowed your code to run quickly, but compromised safety. In particular, your programs can crash at run-time throwing the famous `NullPointerException` when it tries to use a `null` instead of an object. The null type also enabled memory leaks, security issues and viruses that could have led to loses ranging billions of dollars. Yo understand NullPointerExceptions, consider the following example:
 
 ```java
 public static void main (String[] args) { 
@@ -25,9 +22,7 @@ public static void main (String[] args) {
 } 
 ```
 
-Here, we are trying to compare tha variable ```ptr```, that is initialized as `null` with the string `HIII`. However, this program throws a null-pointer exception because we are trying to find a string object in `ptr` instead of null. While this was easy to detect, when your code base gets large, null references get hard to keep track of. In the paper [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf), Nada Amin and Ross Tate argue that Null pointers "causes the same problem for the same reasons, but at the type level". This paper examines thier arguments and provides examples additional examples of null pointers causing problems at the type-level. 
-
-Let us first example what type systems are and thier importance.
+Here, we are trying to compare tha variable ```ptr```, that is initialized as `null` with the string `HIII`. However, this program throws a null-pointer exception because we are trying to find a string object in `ptr`, which is actually null. While this example is mostly straightforward, when your code base gets large, null references get harder to keep track of. In the paper [Java and Scala’s Type Systems are Unsound](https://ilyasergey.net/YSC3208/_static/papers/null.pdf), Nada Amin and Ross Tate argue that Null pointers "causes the same problem for the same reasons, but at the type level". This report examines thier arguments and provides examples additional examples of null pointers causing problems at the type-level. But first, let us understand type systems and thier importance.
 
 #### Type Systems
 A type is a system of judgement and inference rules. A judgement is a claim and Inference rules are used to derieve judgements from other judgements that are valid.[[1]](https://ilyasergey.net/YSC3208/_static/lectures/PLDI-Week-09-typing.pdf) 
