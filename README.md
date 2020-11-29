@@ -1,5 +1,5 @@
 # Null Pointer References: The Billion Dollar Mistake, this time at the type level
-## Alaukik N Pant
+##### Alaukik N Pant
 
 Tony Hoare called his invention of Null references his billion dollar mistake.[[1]](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/) Before we understand why, let us define the null type.
 
